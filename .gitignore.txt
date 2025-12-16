@@ -1,0 +1,83 @@
+# ===== Dependencies =====
+node_modules/
+bower_components/
+
+# ===== Build outputs =====
+dist/
+build/
+out/
+.next/
+.nuxt/
+.svelte-kit/
+.vite/
+.cache/
+.parcel-cache/
+webpack-cache/
+
+# ===== Logs =====
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ===== Runtime / temp =====
+tmp/
+temp/
+*.tmp
+*.swp
+*.swo
+*.pid
+*.pid.lock
+
+# ===== Environment / secrets =====
+.env
+.env.*
+!.env.example
+*.local
+
+# ===== Coverage =====
+coverage/
+.nyc_output/
+
+# ===== Package managers =====
+.pnpm-store/
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# ===== TypeScript =====
+*.tsbuildinfo
+
+# ===== IDEs =====
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+.idea/
+*.iml
+
+# ===== OS files =====
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===== Misc =====
+*.tgz
+*.zip
+
+# ===== Firebase / Vercel / Netlify (optional) =====
+.firebase/
+.vercel/
+.netlify/
+
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml

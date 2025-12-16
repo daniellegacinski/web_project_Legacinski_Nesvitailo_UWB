@@ -1,0 +1,46 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "Paracetamol 500 mg",
+            "description": "Tablets, 20 pcs, OTC",
+            "price": 3.99,
+            "image": "<svg width=\"96\" height=\"96\" viewBox=\"0 0 96 96\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"14\" y=\"22\" width=\"68\" height=\"52\" rx=\"26\" fill=\"#1b2a4a\"/><path d=\"M20 48c0-12 10-22 22-22h12v44H42c-12 0-22-10-22-22z\" fill=\"#ff4d4d\"/><path d=\"M76 48c0 12-10 22-22 22H42V26h12c12 0 22 10 22 22z\" fill=\"#ffffff\"/><rect x=\"44\" y=\"32\" width=\"8\" height=\"32\" rx=\"4\" fill=\"#1b2a4a\"/></svg>"
+        },
+        {
+            "id": 2,
+            "name": "Ibuprofen 200 mg",
+            "description": "Tablets, 24 pcs, OTC",
+            "price": 4.49,
+            "image": "<svg width=\"96\" height=\"96\" viewBox=\"0 0 96 96\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"14\" y=\"22\" width=\"68\" height=\"52\" rx=\"14\" fill=\"#0f1420\"/><rect x=\"18\" y=\"26\" width=\"60\" height=\"44\" rx=\"12\" fill=\"#2b6cff\" opacity=\"0.25\"/><circle cx=\"34\" cy=\"48\" r=\"10\" fill=\"#2b6cff\"/><circle cx=\"62\" cy=\"48\" r=\"10\" fill=\"#2b6cff\"/><path d=\"M34 38v20M24 48h20\" stroke=\"#eaf0ff\" stroke-width=\"4\" stroke-linecap=\"round\"/></svg>"
+        },
+        {
+            "id": 3,
+            "name": "Cetirizine 10 mg",
+            "description": "Tablets, 30 pcs, OTC",
+            "price": 6.5,
+            "image": "<svg width=\"96\" height=\"96\" viewBox=\"0 0 96 96\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"18\" y=\"18\" width=\"60\" height=\"60\" rx=\"14\" fill=\"#0f1420\"/><path d=\"M26 58c0-16 12-28 28-28s28 12 28 28\" fill=\"#00b27a\" opacity=\"0.25\"/><path d=\"M30 58c0-14 10-24 24-24s24 10 24 24\" fill=\"#00b27a\" opacity=\"0.35\"/><path d=\"M48 30c10 0 18 8 18 18s-8 18-18 18-18-8-18-18 8-18 18-18z\" fill=\"#00b27a\"/><path d=\"M48 40v16\" stroke=\"#eaf0ff\" stroke-width=\"4\" stroke-linecap=\"round\"/></svg>"
+        },
+        {
+            "id": 4,
+            "name": "Vitamin C 1000 mg",
+            "description": "Effervescent, 20 pcs, supplement",
+            "price": 7.2,
+            "image": "<svg width=\"96\" height=\"96\" viewBox=\"0 0 96 96\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"18\" y=\"18\" width=\"60\" height=\"60\" rx=\"14\" fill=\"#0f1420\"/><circle cx=\"48\" cy=\"48\" r=\"22\" fill=\"#ff9f1c\"/><circle cx=\"48\" cy=\"48\" r=\"14\" fill=\"#ffd166\"/><path d=\"M40 48h16\" stroke=\"#0f1420\" stroke-width=\"6\" stroke-linecap=\"round\"/></svg>"
+        },
+        {
+            "id": 5,
+            "name": "Saline nasal spray",
+            "description": "Spray, 30 ml, OTC",
+            "price": 5.1,
+            "image": "<svg width=\"96\" height=\"96\" viewBox=\"0 0 96 96\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"22\" y=\"26\" width=\"52\" height=\"52\" rx=\"10\" fill=\"#0f1420\"/><rect x=\"30\" y=\"34\" width=\"36\" height=\"44\" rx=\"8\" fill=\"#eaf0ff\" opacity=\"0.12\"/><rect x=\"38\" y=\"18\" width=\"20\" height=\"14\" rx=\"4\" fill=\"#2b6cff\"/><path d=\"M58 20h10\" stroke=\"#2b6cff\" stroke-width=\"4\" stroke-linecap=\"round\"/><path d=\"M72 26c-2 4-6 6-10 6\" stroke=\"#2b6cff\" stroke-width=\"3\" stroke-linecap=\"round\"/><path d=\"M64 36c3 3 3 9 0 12\" stroke=\"#00b27a\" stroke-width=\"3\" stroke-linecap=\"round\"/></svg>"
+        },
+        {
+            "id": 6,
+            "name": "Bandages (elastic)",
+            "description": "Roll, 1 pc",
+            "price": 2.3,
+            "image": "<svg width=\"96\" height=\"96\" viewBox=\"0 0 96 96\" xmlns=\"http://www.w3.org/2000/svg\"><rect x=\"18\" y=\"18\" width=\"60\" height=\"60\" rx=\"14\" fill=\"#0f1420\"/><path d=\"M30 58c0-10 8-18 18-18h10c6 0 10 4 10 10s-4 10-10 10H48c-10 0-18-8-18-18z\" fill=\"#ff4d4d\" opacity=\"0.9\"/><circle cx=\"52\" cy=\"50\" r=\"2\" fill=\"#eaf0ff\"/><circle cx=\"58\" cy=\"50\" r=\"2\" fill=\"#eaf0ff\"/><circle cx=\"64\" cy=\"50\" r=\"2\" fill=\"#eaf0ff\"/></svg>"
+        }
+    ]
+}
