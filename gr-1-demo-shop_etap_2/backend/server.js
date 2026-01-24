@@ -24,13 +24,42 @@ function writeDb(db) {
     fs.writeFileSync(dbPath, JSON.stringify(db, null, 4), "utf-8");
 }
 
+function normalizeStr(v) {
+    return String(v ?? "").trim();
+}
+
+function toNumberSafe(v) {
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
+}
+
+function makeId() {
+    if (typeof crypto.randomUUID === "function") return crypto.randomUUID();
+    return crypto.randomBytes(16).toString("hex");
+}
+
 app.get("/", (req, res) => {
     res.send("API is running. Use /products, /orders");
 });
 
 app.get("/products", (req, res) => {
     const db = readDb();
-    res.json(db.products);
+
+    const priceSort = normalizeStr(req.query.price_sort).toLowerCase();
+    const nameQuery = normalizeStr(req.query.name).toLowerCase();
+
+    let items = [...db.products];
+
+    if (nameQuery) {
+        items = items.filter((p) => String(p.name ?? "").toLowerCase().includes(nameQuery));
+    }
+
+    if (priceSort === "asc" || priceSort === "desc") {
+        const dir = priceSort === "asc" ? 1 : -1;
+        items.sort((a, b) => (toNumberSafe(a.price) - toNumberSafe(b.price)) * dir);
+    }
+
+    res.json(items);
 });
 
 app.get("/orders", (req, res) => {
@@ -44,9 +73,9 @@ app.get("/orders", (req, res) => {
             return {
                 id: p.id,
                 qty: Number(p.qty),
-                product,
+                product
             };
-        }),
+        })
     }));
 
     res.json(result);
@@ -57,7 +86,7 @@ function normalizeOrderBody(body) {
 
     return body.map((x) => ({
         id: x.Id ?? x.id,
-        qty: Number(x.Qty ?? x.qty),
+        qty: Number(x.Qty ?? x.qty)
     }));
 }
 
@@ -80,12 +109,12 @@ function createOrder(req, res) {
         if (!exists) return res.status(400).json({ error: `Product not found: ${it.id}` });
     }
 
-    const orderId = crypto.randomUUID();
+    const orderId = makeId();
 
     db.orders.push({
         id: orderId,
         date: new Date().toISOString(),
-        products: items.map((it) => ({ id: it.id, qty: it.qty })),
+        products: items.map((it) => ({ id: it.id, qty: it.qty }))
     });
 
     writeDb(db);
@@ -94,7 +123,7 @@ function createOrder(req, res) {
 }
 
 app.post("/order", createOrder);
-app.post("/orders", createOrder); 
+app.post("/orders", createOrder);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`API listening on http://localhost:${PORT}`));

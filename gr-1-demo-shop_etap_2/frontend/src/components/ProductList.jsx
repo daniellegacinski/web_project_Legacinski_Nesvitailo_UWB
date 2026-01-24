@@ -1,119 +1,123 @@
+﻿import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useShop } from "../context/ShopContext";
 
-import { useEffect, useMemo, useState } from "react";
-import "../App.css";
-
-const API_URL = "http://localhost:5000";
+const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5000";
 
 export function ProductsPage() {
+    const { addToCart } = useShop();
+
     const [products, setProducts] = useState([]);
-    const [q, setQ] = useState("");
-    const [cart, setCart] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    const [searchName, setSearchName] = useState("");
+    const [priceSort, setPriceSort] = useState("");
+
+    const queryString = useMemo(() => {
+        const params = new URLSearchParams();
+        if (priceSort) params.set("price_sort", priceSort);
+        if (searchName.trim()) params.set("name", searchName.trim());
+        const qs = params.toString();
+        return qs ? `?${qs}` : "";
+    }, [priceSort, searchName]);
+
+    const fetchProducts = useCallback(async () => {
+        setLoading(true);
+        setError("");
+        try {
+            const r = await fetch(`${API_BASE}/products${queryString}`);
+            if (!r.ok) throw new Error(`GET /products failed (${r.status})`);
+            const data = await r.json();
+            setProducts(Array.isArray(data) ? data : []);
+        } catch (e) {
+            setError(String(e?.message ?? e));
+            setProducts([]);
+        } finally {
+            setLoading(false);
+        }
+    }, [queryString]);
 
     useEffect(() => {
-        fetch(`${API_URL}/products`)
-            .then((r) => r.json())
-            .then((data) => setProducts(Array.isArray(data) ? data : []))
-            .catch(() => setProducts([]));
-    }, []);
-
-    const filtered = useMemo(() => {
-        const s = q.trim().toLowerCase();
-        if (!s) return products;
-        return products.filter((p) => (p.name || "").toLowerCase().includes(s));
-    }, [products, q]);
-
-    const cartItems = useMemo(() => {
-        return Object.entries(cart)
-            .map(([id, count]) => {
-                const p = products.find((x) => String(x.id) === String(id));
-                return p ? { ...p, count } : null;
-            })
-            .filter(Boolean);
-    }, [cart, products]);
-
-    const total = useMemo(() => {
-        return cartItems.reduce((sum, x) => sum + Number(x.price || 0) * x.count, 0);
-    }, [cartItems]);
-
-    const add = (id) => setCart((c) => ({ ...c, [id]: (c[id] || 0) + 1 }));
-
-    const remove = (id) =>
-        setCart((c) => {
-            const next = { ...c };
-            const v = (next[id] || 0) - 1;
-            if (v <= 0) delete next[id];
-            else next[id] = v;
-            return next;
-        });
+        fetchProducts();
+    }, [fetchProducts]);
 
     return (
-        <div className="page">
-            <div className="header">
-                <div>
-                    <div className="title">Pharmacy Demo</div>
-                    <div className="subtitle">Demo catalog. Not medical advice.</div>
-                </div>
-
-                <input
-                    className="search"
-                    value={q}
-                    onChange={(e) => setQ(e.target.value)}
-                    placeholder="Search..."
-                />
-
-                <div className="total">{total.toFixed(2)}</div>
+        <div style={{ padding: 16 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                <h2 style={{ margin: 0 }}>Products</h2>
+                <button onClick={fetchProducts} disabled={loading}>
+                    {loading ? "Loading..." : "Refresh"}
+                </button>
             </div>
 
-            <div className="layout">
-                <div className="list">
-                    {filtered.map((p) => (
-                        <div key={p.id} className="card">
-                            <div className="img" dangerouslySetInnerHTML={{ __html: p.image || "" }} />
-                            <div className="name">{p.name}</div>
-                            <div className="desc">{p.description}</div>
-                            <div className="row">
-                                <div className="price">{Number(p.price || 0).toFixed(2)}</div>
-                                <button className="btn" onClick={() => add(p.id)}>
-                                    Add
-                                </button>
+            <div
+                style={{
+                    display: "flex",
+                    gap: 10,
+                    alignItems: "center",
+                    padding: 12,
+                    border: "1px solid #ddd",
+                    borderRadius: 8,
+                    marginBottom: 16,
+                    flexWrap: "wrap"
+                }}
+            >
+                <input
+                    type="text"
+                    placeholder="Search by name..."
+                    value={searchName}
+                    onChange={(e) => setSearchName(e.target.value)}
+                    style={{ width: 260 }}
+                />
+
+                <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                    <span style={{ opacity: 0.75 }}>Sort by price:</span>
+
+                    <button onClick={() => setPriceSort("asc")} disabled={priceSort === "asc"}>
+                        Asc
+                    </button>
+
+                    <button onClick={() => setPriceSort("desc")} disabled={priceSort === "desc"}>
+                        Desc
+                    </button>
+
+                    <button
+                        onClick={() => {
+                            setSearchName("");
+                            setPriceSort("");
+                        }}
+                    >
+                        Clear
+                    </button>
+                </div>
+            </div>
+
+            {error ? <div style={{ color: "crimson", marginBottom: 12 }}>{error}</div> : null}
+
+            {loading ? (
+                <div>Loading...</div>
+            ) : products.length === 0 ? (
+                <div>No products</div>
+            ) : (
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 12 }}>
+                    {products.map((p) => (
+                        <div key={p.id} style={{ border: "1px solid #eee", borderRadius: 10, padding: 12 }}>
+                            <div style={{ display: "flex", gap: 12 }}>
+                                <div style={{ width: 72, height: 72 }} dangerouslySetInnerHTML={{ __html: p.image || "" }} />
+                                <div style={{ flex: 1 }}>
+                                    <div style={{ fontWeight: 700 }}>{p.name}</div>
+                                    <div style={{ opacity: 0.75, fontSize: 13 }}>{p.description}</div>
+                                    <div style={{ marginTop: 8, fontWeight: 700 }}>${Number(p.price).toFixed(2)}</div>
+                                </div>
+                            </div>
+
+                            <div style={{ marginTop: 10 }}>
+                                <button onClick={() => addToCart(p, 1)}>Add to cart</button>
                             </div>
                         </div>
                     ))}
                 </div>
-
-                <div className="cart">
-                    <div className="cartTitle">Cart</div>
-
-                    {cartItems.length === 0 ? (
-                        <div className="muted">Empty</div>
-                    ) : (
-                        <div className="cartList">
-                            {cartItems.map((x) => (
-                                <div key={x.id} className="cartRow">
-                                    <div>
-                                        <div className="cartName">{x.name}</div>
-                                        <div className="muted">
-                                            {Number(x.price || 0).toFixed(2)} x {x.count}
-                                        </div>
-                                    </div>
-                                    <div className="qty">
-                                        <button className="btn2" onClick={() => remove(x.id)}>
-                                            -
-                                        </button>
-                                        <div className="n">{x.count}</div>
-                                        <button className="btn2" onClick={() => add(x.id)}>
-                                            +
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                            <button className="btnCheckout" onClick={() => alert("Demo checkout")}>
-                                Checkout
-                            </button>
-                        </div>
-                    )}
-                </div>
-            </div>
+            )}
         </div>
     );
 }

@@ -2,7 +2,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useS
 
 const ShopContext = createContext(null);
 
-const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:3001";
+const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5000";
 
 export function ShopProvider({ children }) {
     const [cart, setCart] = useState([]);
@@ -66,7 +66,7 @@ export function ShopProvider({ children }) {
             const r = await fetch(`${API_BASE}/orders`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload),
+                body: JSON.stringify(payload)
             });
 
             if (!r.ok) {
@@ -99,7 +99,7 @@ export function ShopProvider({ children }) {
             removeFromCart,
             clearCart,
             fetchOrders,
-            createOrder,
+            createOrder
         }),
         [cart, orders, loadingOrders, creatingOrder, error, addToCart, setCartQty, removeFromCart, clearCart, fetchOrders, createOrder]
     );
