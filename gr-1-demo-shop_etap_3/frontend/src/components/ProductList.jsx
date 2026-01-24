@@ -1,4 +1,5 @@
 ﻿import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { useShop } from "../context/ShopContext";
 
 const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5000";
@@ -105,7 +106,11 @@ export function ProductsPage() {
                             <div style={{ display: "flex", gap: 12 }}>
                                 <div style={{ width: 72, height: 72 }} dangerouslySetInnerHTML={{ __html: p.image || "" }} />
                                 <div style={{ flex: 1 }}>
-                                    <div style={{ fontWeight: 700 }}>{p.name}</div>
+                                    <div style={{ fontWeight: 700 }}>
+                                        <Link to={`/products/${p.id}`} style={{ color: "inherit", textDecoration: "none" }}>
+                                            {p.name}
+                                        </Link>
+                                    </div>
                                     <div style={{ opacity: 0.75, fontSize: 13 }}>{p.description}</div>
                                     <div style={{ marginTop: 8, fontWeight: 700 }}>${Number(p.price).toFixed(2)}</div>
                                 </div>

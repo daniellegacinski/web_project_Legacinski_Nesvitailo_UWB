@@ -1,19 +1,27 @@
 ﻿import "./App.css";
-import { ProductsPage } from "./components/ProductList";
-import Cart from "./components/Cart";
-import Orders from "./components/Orders";
+import { NavLink, Route, Routes, Navigate } from "react-router-dom";
+import { ProductsListPage } from "./pages/ProductsListPage";
+import { ProductPage } from "./pages/ProductPage";
+import { CartPage } from "./pages/CartPage";
+import { OrdersPage } from "./pages/OrdersPage";
 
-function App() {
+export default function App() {
     return (
-        <div className="App" style={{ padding: 16, display: "grid", gap: 16 }}>
-            <ProductsPage />
+        <div style={{ padding: 16, display: "grid", gap: 16 }}>
+            <nav style={{ display: "flex", gap: 12 }}>
+                <NavLink to="/products">Products</NavLink>
+                <NavLink to="/cart">Cart</NavLink>
+                <NavLink to="/orders">Orders</NavLink>
+            </nav>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-                <Cart />
-                <Orders />
-            </div>
+            <Routes>
+                <Route path="/" element={<Navigate to="/products" replace />} />
+                <Route path="/products" element={<ProductsListPage />} />
+                <Route path="/products/:id" element={<ProductPage />} />
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/orders" element={<OrdersPage />} />
+                <Route path="*" element={<div>Not found</div>} />
+            </Routes>
         </div>
     );
 }
-
-export default App;
